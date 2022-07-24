@@ -1,6 +1,6 @@
 
 import {sum} from './modules/sum';
-import tpl from './../index.hbs';
+import tpl from './index.hbs';
 
 document.body.innerHTML = tpl({id: "root"});
 
