@@ -3,7 +3,7 @@
 //import tpl from './index.hbs';
 import PageLogin from './pages/login/login.js';
 
-document.body.innerHTML = PageLogin();
+document.body.innerHTML = PageLogin;
 
 
 //document.body.innerHTML = tpl({id: "root"});
