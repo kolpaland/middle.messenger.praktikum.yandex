@@ -5,18 +5,18 @@ import PageChat from './pages/chat/chat.js';
 import PageNotFound from './pages/notfound/notfound.js';
 
 const routes = {
-    '/login' : PageLogin,
+    '/login': PageLogin,
     '/signin': PageSignin,
-    '/error' : PageError,
-    '/chat' : PageChat,
+    '/error': PageError,
+    '/chat': PageChat,
     '/': PageLogin
 }
-
+const root = document.querySelector('#root');
 const path = window.location.pathname;
 
 if (routes[path]) {
 
-    document.body.innerHTML = routes[path];
+    root.innerHTML = routes[path];
 } else {
-    document.body.innerHTML = PageNotFound;
+    root.innerHTML = PageNotFound;
 }
