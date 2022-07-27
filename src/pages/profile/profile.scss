@@ -1,0 +1,30 @@
+
+.over {
+    position:relative;
+    z-index:100; 
+    top: 45px;
+    left: 45px;  
+}
+
+.under {
+    position:absolute;
+    z-index:99;
+}
+
+.box {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 130px;
+    height: 130px;
+}
+
+.form {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 430px;
+}
+.a {
+    display: block;
+}
