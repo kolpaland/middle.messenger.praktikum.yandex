@@ -7,11 +7,11 @@ import './form.scss';
 export default (data) => {
     
     let fields = [];
-    console.log("form " + data.buttonText);
+
     for(let i = 0; i < data.fields.length; i++){
         fields.push(Field(data.fields[i]));
     }
-    console.log(fields);
+
     return Form({
         fields,
         legend: data.legend, 
