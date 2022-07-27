@@ -1,26 +1,22 @@
-
-//import {sum} from './modules/sum';
-//import tpl from './index.hbs';
 import PageLogin from './pages/login/login.js';
 import PageSignin from './pages/signin/signin.js';
+import PageError from './pages/error/error.js';
+import PageChat from './pages/chat/chat.js';
+import PageNotFound from './pages/notfound/notfound.js';
 
 const routes = {
     '/login' : PageLogin,
     '/signin': PageSignin,
+    '/error' : PageError,
+    '/chat' : PageChat,
     '/': PageLogin
 }
 
 const path = window.location.pathname;
 
-console.log('path ' + path);
 if (routes[path]) {
+
     document.body.innerHTML = routes[path];
 } else {
-    document.body.innerHTML = PageLogin;
+    document.body.innerHTML = PageNotFound;
 }
-
-
-//document.body.innerHTML = tpl({id: "root"});
-
-//const root = document.querySelector('#root');
-//root.textContent = sum(6, -1).toString(); 
