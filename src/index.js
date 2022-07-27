@@ -1,8 +1,22 @@
+import PageLogin from './pages/login/login.js';
+import PageSignin from './pages/signin/signin.js';
+import PageError from './pages/error/error.js';
+import PageChat from './pages/chat/chat.js';
+import PageNotFound from './pages/notfound/notfound.js';
 
-import {sum} from './modules/sum';
-import tpl from './index.hbs';
-
-document.body.innerHTML = tpl({id: "root"});
-
+const routes = {
+    '/login': PageLogin,
+    '/signin': PageSignin,
+    '/error': PageError,
+    '/chat': PageChat,
+    '/': PageLogin
+}
 const root = document.querySelector('#root');
-root.textContent = sum(6, -1).toString(); 
+const path = window.location.pathname;
+
+if (routes[path]) {
+
+    root.innerHTML = routes[path];
+} else {
+    root.innerHTML = PageNotFound;
+}
