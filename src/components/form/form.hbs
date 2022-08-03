@@ -1,0 +1,14 @@
+<form>
+    <fieldset>
+        <legend>{{ legend }}</legend>
+        {{#each fields}}
+            {{{ this }}}
+        {{/each}}
+        <div>
+            {{{ button }}}
+        </div>  
+        <div>
+            <a href="{{ rout }}">{{ routText }}</a> 
+        </div>
+    </fieldset>
+</form>
