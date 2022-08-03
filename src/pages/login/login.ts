@@ -1,5 +1,5 @@
 import PageLogin from './login.hbs';
-import Form from './../../components/form/form.js'
+import Form from './../../components/form/form'
 
 import './login.scss';
 

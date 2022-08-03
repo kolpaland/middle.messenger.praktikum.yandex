@@ -1,6 +1,6 @@
 import Form from './form.hbs';
-import Button from './../../components/button/button.js'
-import Field from './components/field/field.js'
+import Button from './../../components/button/button'
+import Field from './components/field/field'
 
 import './form.scss';
 

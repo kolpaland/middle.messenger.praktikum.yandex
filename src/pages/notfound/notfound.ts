@@ -1,5 +1,5 @@
 import PageNotFound from './notfound.hbs';
-import PageStub from './../../layout/stub/stub.js';
+import PageStub from './../../layout/stub/stub';
 
 import './notfound.scss';
 

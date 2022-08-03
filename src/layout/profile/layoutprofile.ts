@@ -1,8 +1,8 @@
 import LayoutProfile from './layoutprofile.hbs';
 import * as ellipce from './../../../static/images/profile/Ellipse.png'
 import * as union from './../../../static/images/profile/Union.png'
-import LabelProfile from './components/labelProfile/labelProfile.js';
-import InputProfile from './components/inputProfile/inputProfile.js';
+import LabelProfile from './components/labelProfile/labelProfile';
+import InputProfile from './components/inputProfile/inputProfile';
 
 import './layoutprofile.scss';
 

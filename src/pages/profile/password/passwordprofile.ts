@@ -1,6 +1,6 @@
 import PagePasswordProfile from './passwordprofile.hbs';
-import LayoutProfile from './../../../layout/profile/layoutprofile.js';
-import Button from './../../../components/button/button.js';
+import LayoutProfile from './../../../layout/profile/layoutprofile';
+import Button from './../../../components/button/button';
 
 import './passwordprofile.scss';
 

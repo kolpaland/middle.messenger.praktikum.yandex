@@ -1,5 +1,5 @@
 import PageInfoProfile from './infoprofile.hbs';
-import LayoutProfile from './../../../layout/profile/layoutprofile.js';
+import LayoutProfile from './../../../layout/profile/layoutprofile';
 
 import './infoprofile.scss';
 

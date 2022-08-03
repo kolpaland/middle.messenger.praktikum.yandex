@@ -1,5 +1,5 @@
 import PageChat from './chat.hbs';
-import PageStub from './../../layout/stub/stub.js';
+import PageStub from './../../layout/stub/stub';
 
 import './chat.scss';
 

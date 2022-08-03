@@ -1,5 +1,5 @@
 import PageError from './error.hbs';
-import PageStub from './../../layout/stub/stub.js';
+import PageStub from './../../layout/stub/stub';
 
 import './error.scss';
 
