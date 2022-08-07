@@ -4,7 +4,20 @@ import Field from './components/field/field'
 
 import './form.scss';
 
-export default (data) => {
+type FieldType = {
+    id: string,
+    text: string,
+    type: string,
+    placeholder?: string
+};
+
+export default (data: {
+    legend: string,
+    rout: string,
+    routText: string,
+    buttonText: string,
+    fields: Array<FieldType>
+}) => {
     
     let fields = [];
 

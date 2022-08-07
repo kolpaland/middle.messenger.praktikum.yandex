@@ -7,7 +7,7 @@ import PageProfile from './pages/profile/info/infoprofile';
 import PageChangeProfile from './pages/profile/change/changeprofile';
 import PagePassword from './pages/profile/password/passwordprofile';
 
-const routes = {
+const routes : { [key: string]: string } = {
     '/login': PageLogin,
     '/signin': PageSignin,
     '/error': PageError,
@@ -17,12 +17,13 @@ const routes = {
     '/password': PagePassword,
     '/': PageLogin
 }
-const root = document.querySelector('#root');
-const path = window.location.pathname;
+const root: Element | null = document.querySelector('#root');
+const path: string = window.location.pathname;
 
-if (routes[path]) {
-
-    root.innerHTML = routes[path];
-} else {
-    root.innerHTML = PageNotFound;
+if (root){
+    if (routes[path]) {
+        root.innerHTML = routes[path];
+    } else {
+        root.innerHTML = PageNotFound;
+    }
 }

@@ -4,7 +4,14 @@ import Input from './../../../input/input'
 
 import './field.scss';
 
-export default (data) => {
+
+
+export default (data: {
+    id: string,
+    text: string,
+    type: string,
+    placeholder?: string
+}) => {
 
     return Field({
         label: Label({
