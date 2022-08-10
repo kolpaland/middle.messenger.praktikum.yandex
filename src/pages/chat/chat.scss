@@ -1,0 +1,46 @@
+.img_chat {
+    float: left;
+}
+
+.l-header {
+    grid-area: my-header;
+}
+.l-nav {
+    grid-area: my-nav;
+}
+.l-main {
+    grid-area: my-main;
+}
+.l-footer {
+    grid-area: my-footer;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas:
+        "my-nav my-header my-header"
+        "my-nav my-main my-main"
+        "my-nav my-main my-main"
+        "my-nav my-main my-main"
+        "my-nav my-main my-main"
+        "my-nav my-footer my-footer";
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.grid-init {
+    max-width: 100%;
+    height: 100%;
+    margin: auto;
+    padding: 10px;
+}
+.box-init {
+    font-size: larger; 
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
