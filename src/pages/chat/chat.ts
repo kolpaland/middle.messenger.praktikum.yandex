@@ -2,6 +2,8 @@ import PageChat from './chat.hbs';
 import ListItem, {ListItemType} from './components/listitem/listitem'
 import Message, {MessageType} from './components/message/message'
 import * as ellipce from './../../../static/images/profile/Ellipse.png'
+import Button from './../../components/button/button'
+import Input from './../../components/input/input'
 
 import './chat.scss';
 
@@ -43,11 +45,6 @@ function getMessages(): Array<typeof Message> {
             text: "Привет, привет!",
             date: "12.08.22",
             time: "12:10"
-        },
-        {
-            text: "Привет, привет!",
-            date: "12.08.22",
-            time: "16:19"
         }
     ];
     let list: Array<typeof Message> = [];
@@ -62,5 +59,12 @@ function getMessages(): Array<typeof Message> {
 export default PageChat({
         list : getList(),
         messages: getMessages(),
-        ellipce
+        ellipce,
+        button: Button("Отправить"),
+        input: Input({
+            id: "message",
+            name: "message",
+            placeholder: "Сообщение",
+            type: "text"
+        })
     });
