@@ -1,7 +1,7 @@
 
 ## Проектная работа 2-го спринта "Чат"
 
-Ссылка на [Pull Request Sprint 2](). 
+Ссылка на [Pull Request Sprint 2](https://github.com/kolpaland/middle.messenger.praktikum.yandex/pull/10). 
 
 Проектная работа выполнена согласно перечня заданий из [ТЗ Яндекс Практикума для 2-го спринта](https://practicum.yandex.ru/learn/middle-frontend/courses/631c1205-d8df-4662-821e-bb83fcbf51da/sprints/35756/topics/0c2e40db-e6ab-4834-9ece-c8392ccca510/lessons/badfe7fe-b562-4628-a2e6-c9ecbfca14f3/), за исключением пунктов: **4**, **5**, **6** и **9**. 
 
