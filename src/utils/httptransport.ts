@@ -23,7 +23,7 @@ type Options = {
     headers?: Record<string, string>
 };
 
-class HTTPTransport {
+export class HTTPTransport {
     get = (url: string , options: Options = {} as Options) => {
 
         return this.request(url, { ...options, method: METHODS.GET }, options.timeout);

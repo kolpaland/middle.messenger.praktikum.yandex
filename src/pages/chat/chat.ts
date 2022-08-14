@@ -1,9 +1,10 @@
-import PageChat from './chat.hbs';
-import ListItem, {ListItemType} from './components/listitem/listitem'
-import Message, {MessageType} from './components/message/message'
+import PageChatTemplate from './chat.hbs';
+import ListItem, { ListItemType } from './components/listitem/listitem'
+import Message, { MessageType } from './components/message/message'
 import * as ellipce from './../../../static/images/profile/Ellipse.png'
 import Button from './../../components/button/button'
-import Input from './../../components/input/input'
+import InputTemplate, { Input } from './../../components/input/input'
+import { Block } from './../../utils/block'
 
 import './chat.scss';
 
@@ -56,15 +57,60 @@ function getMessages(): Array<typeof Message> {
     return list;
 }
 
-export default PageChat({
-        list : getList(),
-        messages: getMessages(),
-        ellipce,
-        button: Button("Отправить"),
-        input: Input({
-            id: "message",
-            name: "message",
-            placeholder: "Сообщение",
-            type: "text"
-        })
-    });
+export default PageChatTemplate({
+    list: getList(),
+    messages: getMessages(),
+    ellipce,
+    button: Button("Отправить"),
+    input: InputTemplate({
+        id: "message",
+        name: "message",
+        placeholder: "Сообщение",
+        type: "text"
+    })
+});
+export class PageChat extends Block{
+
+    constructor() {
+        let props = {
+            list: getList(),
+            messages: getMessages(),
+            ellipce,
+            button: Button("Отправить"),
+            input: new Input({
+                id: "message",
+                name: "message",
+                placeholder: "Сообщение",
+                type: "text"
+            })
+        };
+        super("article", props);
+
+        const events = {
+            "blur": this.onBlurInput.bind(this),
+            "focus": this.onFocusInput.bind(this)
+        };
+
+        this.children["input"].registerEvents(events);
+    }
+
+    onBlurInput(event: InputEvent) {
+        console.log("Blur in chat");
+        const target = event.target as HTMLInputElement;
+        if (target.value.length == 0) {
+            console.log("Поле сообщения не должно быть пустым!");
+        }
+    }
+
+    onFocusInput(event: InputEvent) {
+        console.log("Focus in chat");
+        const target = event.target as HTMLInputElement;
+        if (target.value.length == 0) {
+            console.log("Поле сообщения не должно быть пустым!");
+        }
+    }
+
+    render(): DocumentFragment | null {
+        return this.compile(PageChatTemplate, this.props);
+    }
+}
