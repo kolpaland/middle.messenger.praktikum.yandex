@@ -1,25 +1,25 @@
 import PageLogin from './login.hbs';
-import Form from './../../components/form/form'
+import Form from '../../components/form/form';
 
 import './login.scss';
 
-export default PageLogin({ 
+export default PageLogin({
     form: Form({
-        legend: "Вход",
-        rout: "/signin",
-        routText: "Нет аккаунта?",
-        buttonText: "Войти",
+        legend: 'Вход',
+        rout: '/signin',
+        routText: 'Нет аккаунта?',
+        buttonText: 'Войти',
         fields: [
             {
-                id: "login",
-                text: "Логин",
-                type: "text"    
+                id: 'login',
+                text: 'Логин',
+                type: 'text',
             },
             {
-                id: "password",
-                text: "Пароль",
-                type: "password"
-            }  
-        ]
+                id: 'password',
+                text: 'Пароль',
+                type: 'password',
+            },
+        ],
     }),
- });
+});

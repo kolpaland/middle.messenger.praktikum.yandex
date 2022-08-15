@@ -15,19 +15,16 @@ const routes : { [key: string]: string } = {
     '/profile': PageProfile,
     '/changeprofile': PageChangeProfile,
     '/password': PagePassword,
-    '/': PageLogin
-}
+    '/': PageLogin,
+};
 const root: Element | null = document.querySelector('#root');
 const path: string = window.location.pathname;
 
-if (root){
-
+if (root) {
     if (routes[path]) {
-        if(path == "/chat"){
+        if (path === '/chat') {
             root.appendChild(new PageChat().render() as Node);
-        }
-        else
-            root.innerHTML = routes[path];
+        } else root.innerHTML = routes[path];
     } else {
         root.innerHTML = PageNotFound;
     }

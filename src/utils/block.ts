@@ -1,50 +1,53 @@
 import { v4 as makeUUID } from 'uuid';
 
-import { EventBus } from "./eventbus";
+import EventBus from './eventbus';
 
 type Props = { [key: string]: unknown,
     events?: Record<string, Function>
 };
 
+// eslint-disable-next-line no-use-before-define
 type Children = Record<string, Block>;
 
-export class Block {
+export default class Block {
     static EVENTS: Record<string, string> = {
-        INIT: "init",
-        FLOW_CDM: "flow:component-did-mount",
-        FLOW_CDU: "flow:component-did-update",
-        FLOW_RENDER: "flow:render"
+        INIT: 'init',
+        FLOW_CDM: 'flow:component-did-mount',
+        FLOW_CDU: 'flow:component-did-update',
+        FLOW_RENDER: 'flow:render',
     };
 
     _element: HTMLElement;
+
     _meta: {
         tagName: string,
         props: object
     };
+
     _id: string;
+
     props: Props;
+
     children: Children;
 
     eventBus: Function;
 
-    constructor(tagName: string = "div", propsAndChildren: Props = {} as Props) {
+    constructor(tagName: string = 'div', propsAndChildren: Props = {} as Props) {
         const eventBus: EventBus = new EventBus();
-
 
         const { children, props } = this._getChildren(propsAndChildren);
 
         this.children = children;
         this._meta = {
             tagName,
-            props
+            props,
         };
 
         this._id = makeUUID();
 
-
         this.props = this._makePropsProxy(props);
 
-        this.eventBus = () => eventBus;
+        this.eventBus = () => { return eventBus; };
 
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
@@ -66,20 +69,19 @@ export class Block {
     }
 
     compile(template: Function, props: Props) {
-        let propsAndStubs = { ...props };
+        const propsAndStubs = { ...props };
 
         Object.entries(this.children).forEach(([key, child]) => {
-            propsAndStubs[key as keyof Props]= `<div data-id="${child._id}"></div>`
+            propsAndStubs[key as keyof Props] = `<div data-id="${child._id}"></div>`;
         });
 
         const fragment: HTMLTemplateElement | null = this._createDocumentElement('template') as HTMLTemplateElement;
 
-        if(fragment === null)
-            return null;
+        if (fragment === null) return null;
 
         fragment.innerHTML = template(propsAndStubs);
 
-        Object.values(this.children).forEach( (child) => {
+        Object.values(this.children).forEach((child) => {
             const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
 
             if (stub != null) {
@@ -103,15 +105,21 @@ export class Block {
 
     _addEvents() {
         const { events = {} } = this.props;
-        Object.keys(events).forEach(eventName => {
-            this._element.addEventListener(eventName as keyof HTMLElementEventMap, events[eventName] as EventListener);
+        Object.keys(events).forEach((eventName) => {
+            this._element.addEventListener(
+eventName as keyof HTMLElementEventMap,
+                events[eventName] as EventListener,
+            );
         });
     }
 
     _removeEvents() {
         const { events = {} } = this.props;
-        Object.keys(events).forEach(eventName => {
-            this._element.removeEventListener(eventName as keyof HTMLElementEventMap, events[eventName] as EventListener);
+        Object.keys(events).forEach((eventName) => {
+            this._element.removeEventListener(
+eventName as keyof HTMLElementEventMap,
+                events[eventName] as EventListener,
+            );
         });
     }
 
@@ -144,7 +152,10 @@ export class Block {
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props) {
-        return true;
+        if (oldProps === newProps) {
+            return true;
+        }
+        return false;
     }
 
     setProps = (nextProps: Props) => {
@@ -160,7 +171,6 @@ export class Block {
     }
 
     _render() {
-
         const block = this.render();
         this._removeEvents();
         this._element.innerHTML = '';
@@ -178,11 +188,11 @@ export class Block {
 
     _makePropsProxy(props: Props) {
         const self = this;
-        const checkPrivateProp = (prop: string) => prop.startsWith('_');
+        const checkPrivateProp = (prop: string) => { return prop.startsWith('_'); };
         return new Proxy(props, {
             get(target, prop) {
                 if (checkPrivateProp(<string>prop)) {
-                    throw new Error("Нет прав");
+                    throw new Error('Нет прав');
                 } else {
                     const value = target[prop as keyof Props];
                     return (typeof value === 'function') ? <Function>value.bind(target) : value;
@@ -190,17 +200,18 @@ export class Block {
             },
             set(target, prop, val) {
                 if (checkPrivateProp(prop as string)) {
-                    throw new Error("Нет прав");
+                    throw new Error('Нет прав');
                 } else {
                     const oldProp = target[prop as keyof Props];
+                    // eslint-disable-next-line no-param-reassign
                     target[prop as keyof Props] = val;
                     self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProp, val);
                     return true;
                 }
             },
             deleteProperty(target, prop) {
-                throw new Error("Нет доступа");
-            }
+                throw new Error(`Нет доступа ${target} ${String(prop)}`);
+            },
         });
     }
 
@@ -211,12 +222,14 @@ export class Block {
     }
 
     show() {
-        if (this._element != null)
-            this._element.style.display = "block";
+        if (this._element != null) {
+            this._element.style.display = 'block';
+        }
     }
 
     hide() {
-        if (this._element != null)
-            this._element.style.display = "none";
+        if (this._element != null) {
+            this._element.style.display = 'none';
+        }
     }
 }

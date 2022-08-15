@@ -23,9 +23,8 @@ type Options = {
     headers?: Record<string, string>
 };
 
-export class HTTPTransport {
-    get = (url: string , options: Options = {} as Options) => {
-
+export default class HTTPTransport {
+    get = (url: string, options: Options = {} as Options) => {
         return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
     };
 
@@ -41,12 +40,12 @@ export class HTTPTransport {
         return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
     };
 
-    request = (url:string, options: Options = {} as Options, timeout: number = 5000) => {
-        const { headers = {} , method, data } = options;
+    request = (url: string, options: Options = {} as Options, timeout: number = 5000) => {
+        const { headers = {}, method, data } = options;
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             if (!method) {
-                reject('No method');
+                reject(new Error('No method'));
                 return;
             }
 
@@ -60,11 +59,11 @@ export class HTTPTransport {
                     : url,
             );
 
-            Object.keys(headers).forEach(key => {
+            Object.keys(headers).forEach((key) => {
                 xhr.setRequestHeader(key, headers[key]);
             });
 
-            xhr.onload = function () {
+            xhr.onload = () => {
                 resolve(xhr);
             };
 

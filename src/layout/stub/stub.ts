@@ -9,4 +9,4 @@ export default (data : {
     routText: string;
 }):string => {
     return PageStub(data);
-}
+};

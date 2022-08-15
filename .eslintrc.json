@@ -3,7 +3,17 @@
     "parser": "@typescript-eslint/parser",
     "plugins": ["@typescript-eslint"],
     "rules": {
-      "max-len": [2, 100],
+      "max-len": [2, 130],
+      "indent": [2, 4],
+      "arrow-body-style": ["error", "always"],  
+      "no-underscore-dangle": 0,
+      "import/extensions": 0,
+      "import/no-unresolved": 0,
+      "class-methods-use-this": 0,
+      "no-undef": 0,
+      "no-console": 0,
+      "no-plusplus": 0,
+      "no-tabs": 0,
       "@typescript-eslint/no-unused-vars": 2
       }
   } 

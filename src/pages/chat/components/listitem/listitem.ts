@@ -1,5 +1,5 @@
 import ListItem from './listitem.hbs';
-import * as ellipce from './../../../../../static/images/profile/Ellipse.png'
+import * as ellipce from '../../../../../static/images/profile/Ellipse.png';
 
 import './listitem.scss';
 
@@ -9,11 +9,11 @@ type ListItemType = {
     time: string
 };
 
-export {ListItemType};
+export { ListItemType };
 
 export default (data: ListItemType) => {
     return ListItem({
         ellipce,
-        data
+        data,
     });
-}
+};

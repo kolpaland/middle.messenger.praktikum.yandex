@@ -1,10 +1,8 @@
 import Field from './field.hbs';
-import Label from './../../../label/label'
-import Input from './../../../input/input'
+import Label from '../../../label/label';
+import Input from '../../../input/input';
 
 import './field.scss';
-
-
 
 export default (data: {
     id: string,
@@ -12,17 +10,16 @@ export default (data: {
     type: string,
     placeholder?: string
 }) => {
-
     return Field({
         label: Label({
             forId: data.id,
-            text: data.text
+            text: data.text,
         }),
         input: Input({
             id: data.id,
             name: data.id,
             placeholder: data.placeholder ? data.placeholder : data.text,
-            type: data.type
-        })
+            type: data.type,
+        }),
     });
-}
+};
