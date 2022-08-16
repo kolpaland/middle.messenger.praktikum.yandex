@@ -2,7 +2,7 @@ import PageChatTemplate from './chat.hbs';
 import ListItem, { ListItemType } from './components/listitem/listitem';
 import Message, { MessageType } from './components/message/message';
 import * as ellipce from '../../../static/images/profile/Ellipse.png';
-import Button from '../../components/button/button';
+import ButtonTemplate, { Button } from '../../components/button/button';
 import InputTemplate, { Input } from '../../components/input/input';
 import Block from '../../utils/block';
 
@@ -61,7 +61,7 @@ export default PageChatTemplate({
     list: getList(),
     messages: getMessages(),
     ellipce,
-    button: Button('Отправить'),
+    button: ButtonTemplate('Отправить'),
     input: InputTemplate({
         id: 'message',
         name: 'message',
@@ -75,25 +75,27 @@ export class PageChat extends Block {
             list: getList(),
             messages: getMessages(),
             ellipce,
-            button: Button('Отправить'),
+            button: new Button({
+                text: 'Отправить',
+                events: {
+                    click: PageChat.onSubmit,
+                },
+            }),
             input: new Input({
                 id: 'message',
                 name: 'message',
                 placeholder: 'Сообщение',
                 type: 'text',
+                events: {
+                    blur: PageChat.onBlurInput,
+                    focus: PageChat.onFocusInput,
+                },
             }),
         };
         super('article', props);
-
-        const events = {
-            blur: this.onBlurInput.bind(this),
-            focus: this.onFocusInput.bind(this),
-        };
-
-        this.children.input.registerEvents(events);
     }
 
-    onBlurInput(event: InputEvent) {
+    static onBlurInput(event: InputEvent) {
         console.log('Blur in chat');
         const target = event.target as HTMLInputElement;
         if (target.value.length === 0) {
@@ -101,12 +103,23 @@ export class PageChat extends Block {
         }
     }
 
-    onFocusInput(event: InputEvent) {
+    static onFocusInput(event: InputEvent) {
         console.log('Focus in chat');
         const target = event.target as HTMLInputElement;
         if (target.value.length === 0) {
             console.log('Поле сообщения не должно быть пустым!');
         }
+    }
+
+    static onSubmit(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+        const target = event.target.parentElement.children.message;
+        if (target.value.length === 0) {
+            console.log('Поле сообщения не должно быть пустым!');
+        }
+        target.value = "";
+        return false;
     }
 
     render(): DocumentFragment | null {

@@ -174,7 +174,7 @@ eventName as keyof HTMLElementEventMap,
         const block = this.render();
         this._removeEvents();
         this._element.innerHTML = '';
-        this._element.appendChild(block as Node);
+        this._element = (block as Node).firstChild;
         this._addEvents();
     }
 
