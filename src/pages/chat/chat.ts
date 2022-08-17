@@ -89,37 +89,40 @@ export class PageChat extends Block {
                 events: {
                     blur: PageChat.onBlurInput,
                     focus: PageChat.onFocusInput,
+                    invalid: PageChat.onInvalidInput,
                 },
             }),
         };
         super('article', props);
     }
 
-    static onBlurInput(event: InputEvent) {
-        console.log('Blur in chat');
+    static onInvalidInput(event: InputEvent) {
         const target = event.target as HTMLInputElement;
-        if (target.value.length === 0) {
-            console.log('Поле сообщения не должно быть пустым!');
+        if (target.value === '') {
+            target.setCustomValidity('Enter messsage to send');
         }
+    }
+
+    static onBlurInput(event: InputEvent) {
+        const target = event.target as HTMLInputElement;
+        target.setCustomValidity('');
+        target.checkValidity();
     }
 
     static onFocusInput(event: InputEvent) {
-        console.log('Focus in chat');
         const target = event.target as HTMLInputElement;
-        if (target.value.length === 0) {
-            console.log('Поле сообщения не должно быть пустым!');
-        }
+        target.setCustomValidity('');
+        target.reportValidity();
     }
 
     static onSubmit(event: MouseEvent) {
-        event.preventDefault();
-        event.stopPropagation();
-        const target = event.target.parentElement.children.message;
-        if (target.value.length === 0) {
-            console.log('Поле сообщения не должно быть пустым!');
+        const { target } = event;
+        const { parentElement } = target as HTMLInputElement;
+        const message = parentElement?.children?.namedItem('message') as HTMLInputElement;
+        if (message && message.reportValidity()) {
+            message.value = '';
+            event.preventDefault();
         }
-        target.value = "";
-        return false;
     }
 
     render(): DocumentFragment | null {

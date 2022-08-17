@@ -7,7 +7,8 @@ type TypeInputData = {
 	type: string,
 	id: string,
 	name: string,
-	placeholder: string
+	placeholder: string,
+	pattern?: string
 };
 
 export default (data: TypeInputData) => {
@@ -19,6 +20,7 @@ type TypeInputProps = {
 	id: string,
 	name: string,
 	placeholder: string,
+	pattern?: string,
 	events?: Record<string, Function>
 };
 
