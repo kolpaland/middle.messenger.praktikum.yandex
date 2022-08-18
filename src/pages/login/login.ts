@@ -44,11 +44,21 @@ export class PageLogin extends Block {
                         id: 'login',
                         text: 'Логин',
                         type: 'text',
+                        events: {
+                            blur: PageLogin.onBlurInput,
+                            focus: PageLogin.onFocusInput,
+                            invalid: PageLogin.onInvalidInput,
+                        },
                     },
                     {
                         id: 'password',
                         text: 'Пароль',
                         type: 'password',
+                        events: {
+                            blur: PageLogin.onBlurInput,
+                            focus: PageLogin.onFocusInput,
+                            invalid: PageLogin.onInvalidInput,
+                        },
                     },
                 ],
             }),
@@ -57,8 +67,27 @@ export class PageLogin extends Block {
         super('form', props);
     }
 
-    static onSubmit() {
-        console.log('login submit');
+    static onInvalidInput(event: InputEvent) {
+        const target = event.target as HTMLInputElement;
+        if (target.value === '') {
+            target.setCustomValidity('Enter messsage to send');
+        }
+    }
+
+    static onBlurInput(event: InputEvent) {
+        const target = event.target as HTMLInputElement;
+        target.setCustomValidity('');
+        target.checkValidity();
+    }
+
+    static onFocusInput(event: InputEvent) {
+        const target = event.target as HTMLInputElement;
+        target.setCustomValidity('');
+        target.reportValidity();
+    }
+
+    static onSubmit(event: MouseEvent) {
+        event.preventDefault();
     }
 
     render(): DocumentFragment | null {

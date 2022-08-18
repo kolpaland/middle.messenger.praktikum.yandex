@@ -39,7 +39,12 @@ export default (data: FormTemplateDataType) => {
 
 export class Form extends Block {
     constructor(props: FormDataType) {
-        const { legend, rout, routText, button } = props;
+        const {
+            legend,
+            rout,
+            routText,
+            button,
+        } = props;
         const fields = [];
 
         for (let i = 0; i < props.fields.length; i++) {

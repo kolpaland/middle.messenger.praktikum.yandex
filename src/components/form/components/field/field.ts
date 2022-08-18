@@ -10,6 +10,7 @@ export type FieldTemplateType = {
     text: string,
     type: string,
     placeholder?: string
+    events?: Record<string, Function>
 };
 
 export default (data: FieldTemplateType) => {
@@ -39,6 +40,7 @@ export class Field extends Block {
                 name: props.id,
                 placeholder: props.placeholder ? props.placeholder : props.text,
                 type: props.type,
+                events: props.events,
             }),
         };
 
