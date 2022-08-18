@@ -1,34 +1,54 @@
-import Form from './form.hbs';
-import Button from '../../components/button/button';
-import Field from './components/field/field';
+import FormTemplate from './form.hbs';
+import ButtonTemplate, { Button } from '../../components/button/button';
+import FieldTemplate, { FieldTemplateType, Field } from './components/field/field';
+import Block from '../../utils/block';
 
 import './form.scss';
 
-type FieldType = {
-    id: string,
-    text: string,
-    type: string,
-    placeholder?: string
-};
-
-export default (data: {
+type FormTemplateDataType = {
     legend: string,
     rout: string,
     routText: string,
     buttonText: string,
-    fields: Array<FieldType>
-}) => {
+    fields: Array<FieldTemplateType>
+};
+
+export default (data: FormTemplateDataType) => {
     const fields = [];
 
     for (let i = 0; i < data.fields.length; i++) {
-        fields.push(Field(data.fields[i]));
+        fields.push(FieldTemplate(data.fields[i]));
     }
 
-    return Form({
+    return FormTemplate({
         fields,
         legend: data.legend,
         rout: data.rout,
         routText: data.routText,
-        button: Button(data.buttonText),
+        button: ButtonTemplate(data.buttonText),
     });
 };
+
+export class Form extends Block {
+    constructor(props: FormTemplateDataType) {
+        const { legend, rout, routText } = props;
+        const fields = [];
+
+        for (let i = 0; i < props.fields.length; i++) {
+            fields.push(new Field(props.fields[i]));
+        }
+        const data = {
+            legend,
+            rout,
+            routText,
+            button: new Button({ text: props.buttonText }),
+            fields,
+        };
+
+        super('form', data);
+    }
+
+    render() {
+        return this.compile(FormTemplate, this.props);
+    }
+}

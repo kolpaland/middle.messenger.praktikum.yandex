@@ -1,10 +1,10 @@
 import PageSignin from './signin.hbs';
-import Form from '../../components/form/form';
+import FormTemplate from '../../components/form/form';
 
 import './signin.scss';
 
 export default PageSignin({
-    form: Form({
+    form: FormTemplate({
         legend: 'Регистрация',
         rout: '/login',
         routText: 'Войти',
