@@ -9,7 +9,15 @@ type FormTemplateDataType = {
     legend: string,
     rout: string,
     routText: string,
-    buttonText: string,
+    button: typeof ButtonTemplate,
+    fields: Array<FieldTemplateType>
+};
+
+type FormDataType = {
+    legend: string,
+    rout: string,
+    routText: string,
+    button: Button,
     fields: Array<FieldTemplateType>
 };
 
@@ -25,13 +33,13 @@ export default (data: FormTemplateDataType) => {
         legend: data.legend,
         rout: data.rout,
         routText: data.routText,
-        button: ButtonTemplate(data.buttonText),
+        button: data.button,
     });
 };
 
 export class Form extends Block {
-    constructor(props: FormTemplateDataType) {
-        const { legend, rout, routText } = props;
+    constructor(props: FormDataType) {
+        const { legend, rout, routText, button } = props;
         const fields = [];
 
         for (let i = 0; i < props.fields.length; i++) {
@@ -41,7 +49,7 @@ export class Form extends Block {
             legend,
             rout,
             routText,
-            button: new Button({ text: props.buttonText }),
+            button,
             fields,
         };
 

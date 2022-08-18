@@ -1,6 +1,7 @@
 import PageLoginTemplate from './login.hbs';
 import FormTemplate, { Form } from '../../components/form/form';
 import Block from '../../utils/block';
+import ButtonTemplate, { Button } from '../../components/button/button';
 
 import './login.scss';
 
@@ -9,7 +10,7 @@ export default PageLoginTemplate({
         legend: 'Вход',
         rout: '/signin',
         routText: 'Нет аккаунта?',
-        buttonText: 'Войти',
+        button: ButtonTemplate('Войти'),
         fields: [
             {
                 id: 'login',
@@ -32,7 +33,12 @@ export class PageLogin extends Block {
                 legend: 'Вход',
                 rout: '/signin',
                 routText: 'Нет аккаунта?',
-                buttonText: 'Войти',
+                button: new Button({
+                    text: 'Войти',
+                    events: {
+                        click: PageLogin.onSubmit,
+                    },
+                }),
                 fields: [
                     {
                         id: 'login',
@@ -49,6 +55,10 @@ export class PageLogin extends Block {
         };
 
         super('form', props);
+    }
+
+    static onSubmit() {
+        console.log('login submit');
     }
 
     render(): DocumentFragment | null {

@@ -56,9 +56,10 @@ export default class Block {
     _getChildren(propsAndChildren: Props) {
         const children: Children = {} as Children;
         const props: Props = {} as Props;
-
         Object.entries(propsAndChildren).forEach(([key, value]) => {
             if (value instanceof Block) {
+                children[key] = value;
+            } else if (value instanceof Object && value.length && value[0] instanceof Block) {
                 children[key] = value;
             } else {
                 props[key as keyof Props] = value;
@@ -72,7 +73,14 @@ export default class Block {
         const propsAndStubs = { ...props };
 
         Object.entries(this.children).forEach(([key, child]) => {
-            propsAndStubs[key as keyof Props] = `<div data-id="${child._id}"></div>`;
+            if (child.length) {
+                propsAndStubs[key as keyof Props] = [];
+                for (let i = 0; i < child.length; i++) {
+                    propsAndStubs[key as keyof Props].push(`<div data-id="${child[i]._id}"></div>`);
+                }
+            } else {
+                propsAndStubs[key as keyof Props] = `<div data-id="${child._id}"></div>`;
+            }
         });
 
         const fragment: HTMLTemplateElement | null = this._createDocumentElement('template') as HTMLTemplateElement;
@@ -82,10 +90,19 @@ export default class Block {
         fragment.innerHTML = template(propsAndStubs);
 
         Object.values(this.children).forEach((child) => {
-            const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+            if (child.length !== undefined && child.length > 0) {
+                for (let i = 0; i < child.length; i++) {
+                    const stub = fragment.content.querySelector(`[data-id="${child[i]._id}"]`);
+                    if (stub != null) {
+                        stub.replaceWith(child[i].getContent());
+                    }
+                }
+            } else {
+                const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
 
-            if (stub != null) {
-                stub.replaceWith(child.getContent());
+                if (stub != null) {
+                    stub.replaceWith(child.getContent());
+                }
             }
         });
         return fragment.content;
@@ -174,7 +191,7 @@ eventName as keyof HTMLElementEventMap,
         const block = this.render();
         this._removeEvents();
         this._element.innerHTML = '';
-        this._element = (block as Node).firstChild;
+        this._element = (block as Node).firstChild as HTMLElement;
         this._addEvents();
     }
 
