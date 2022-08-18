@@ -120,6 +120,8 @@ export class PageChat extends Block {
         const { parentElement } = target as HTMLInputElement;
         const message = parentElement?.children?.namedItem('message') as HTMLInputElement;
         if (message && message.reportValidity()) {
+            // согласно ТЗ выводим данные из форм в консоль
+            console.log(`Сообщение: ${message.value}`);
             message.value = '';
             event.preventDefault();
         }
