@@ -3,19 +3,7 @@ import Block from '../../utils/block';
 
 import './input.scss';
 
-type TypeInputData = {
-	type: string,
-	id: string,
-	name: string,
-	placeholder: string,
-	pattern?: string
-};
-
-export default (data: TypeInputData) => {
-    return InputTemplate(data);
-};
-
-type TypeInputProps = {
+export type TypeInputData = {
 	type: string,
 	id: string,
 	name: string,
@@ -24,8 +12,11 @@ type TypeInputProps = {
 	events?: Record<string, Function>
 };
 
+export default (data: TypeInputData) => {
+    return InputTemplate(data);
+};
 export class Input extends Block {
-    constructor(props: TypeInputProps) {
+    constructor(props: TypeInputData) {
         super('input', props);
     }
 

@@ -2,19 +2,11 @@ import FieldTemplate from './field.hbs';
 import LabelTemplate from '../../../label/label';
 import InputTemplate, { Input } from '../../../input/input';
 import Block from '../../../../utils/block';
+import { FieldType } from '../../../constants';
 
 import './field.scss';
 
-export type FieldTemplateType = {
-    id: string,
-    text: string,
-    type: string,
-    placeholder?: string,
-    pattern?: string,
-    events?: Record<string, Function>
-};
-
-export default (data: FieldTemplateType) => {
+export default (data: FieldType) => {
     return FieldTemplate({
         label: LabelTemplate({
             forId: data.id,
@@ -31,7 +23,7 @@ export default (data: FieldTemplateType) => {
 };
 
 export class Field extends Block {
-    constructor(props: FieldTemplateType) {
+    constructor(props: FieldType) {
         const data = {
             label: LabelTemplate({
                 forId: props.id,

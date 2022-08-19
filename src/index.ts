@@ -4,7 +4,7 @@ import PageError from './pages/error/error';
 import PageChatTemplate, { PageChat } from './pages/chat/chat';
 import PageNotFound from './pages/notfound/notfound';
 import PageProfile from './pages/profile/info/infoprofile';
-import PageChangeProfile from './pages/profile/change/changeprofile';
+import PageChangeProfileTemplate, { PageChangeProfile } from './pages/profile/change/changeprofile';
 import PagePassword from './pages/profile/password/passwordprofile';
 
 const routes : { [key: string]: string } = {
@@ -13,7 +13,7 @@ const routes : { [key: string]: string } = {
     '/error': PageError,
     '/chat': PageChatTemplate,
     '/profile': PageProfile,
-    '/changeprofile': PageChangeProfile,
+    '/changeprofile': PageChangeProfileTemplate,
     '/password': PagePassword,
     '/': PageLoginTemplate,
 };
@@ -32,9 +32,11 @@ if (root) {
     case '/signin':
         root.appendChild(new PageSignin().render() as Node);
         break;
+    case '/changeprofile':
+        root.appendChild(new PageChangeProfile().render() as Node);
+        break;
     case '/error':
     case '/profile':
-    case '/changeprofile':
     case '/password':
         root.innerHTML = routes[path];
         break;

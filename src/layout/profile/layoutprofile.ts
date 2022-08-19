@@ -1,51 +1,95 @@
-import LayoutProfile from './layoutprofile.hbs';
+import LayoutProfileTemplate from './layoutprofile.hbs';
 import * as ellipce from '../../../static/images/profile/Ellipse.png';
 import * as union from '../../../static/images/profile/Union.png';
 import LabelProfile from './components/labelProfile/labelProfile';
-import InputProfile from './components/inputProfile/inputProfile';
+import InputProfileTemplate, { InputProfile } from './components/inputProfile/inputProfile';
+import { FieldType, LabelText } from '../../components/constants';
+import Block from '../../utils/block';
 
 import './layoutprofile.scss';
 
-// eslint-disable-next-line no-shadow
-enum LabelText {
-    email = 'Почта',
-    login = 'Логин',
-    first_name = 'Имя',
-    second_name = 'Фамилия',
-    phone = 'Телефон',
-    display_name = 'Имя в чате',
-    oldPassword = 'Старый пароль',
-    newPassword = 'Новый пароль',
-    reenterPassword = 'Повторите новый пароль'
-}
-
 type Profile = {
-    email?: string;
-    login?: string;
-    first_name?: string;
-    second_name?: string;
-    phone?: string;
+    input: Boolean,
+    email?: string,
+    login?: string,
+    first_name?: string,
+    second_name?: string,
+    phone?: string,
     display_name?: string;
-    oldPassword?: string;
-    newPassword?: string;
-    reenterPassword?: string;
+    oldPassword?:string,
+    newPassword?: string,
+    reenterPassword?: string,
+    fieldsdata: FieldType[],
+    events?: Record<string, Function>
 };
 
-export default (data: Profile, input = false) => {
-    const labels = [];
+export default (data: Profile) => {
+    const fields = [];
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key in data) {
+        if (key === 'fieldsdata' || key === 'input' || key === 'events') {
+            // eslint-disable-next-line no-continue
+            continue;
+        }
+
         const values = {
             id: key,
-            text: LabelText[key as keyof typeof LabelText] as string,
+            labelText: LabelText[key as keyof typeof LabelText] as string,
             value: data[key as keyof Profile] as string,
         };
-        labels.push(input ? InputProfile(values) : LabelProfile(values));
+        let index = 0;
+        if (data.input) {
+            for (; index < data.fieldsdata.length; index++) {
+                if (data.fieldsdata[index].id === key) {
+                    break;
+                }
+            }
+        }
+
+        fields.push(data.input ? InputProfileTemplate(data.fieldsdata[index]) : LabelProfile(values));
     }
 
-    return LayoutProfile({
-        labels,
+    return LayoutProfileTemplate({
+        fields,
         union,
         ellipce,
     });
 };
+
+export class LayoutProfile extends Block {
+    constructor(props: Profile) {
+        const fields: typeof LabelProfile[] | InputProfile[] = [];
+        // eslint-disable-next-line no-restricted-syntax, guard-for-in
+        for (const key in props) {
+            if (key === 'fieldsdata' || key === 'input' || key === 'events') {
+                // eslint-disable-next-line no-continue
+                continue;
+            }
+
+            const values = {
+                id: key,
+                labelText: LabelText[key as keyof typeof LabelText] as string,
+                value: props[key as keyof Profile] as string,
+            };
+            let index = 0;
+            if (props.input) {
+                for (; index < props.fieldsdata.length; index++) {
+                    if (props.fieldsdata[index].id === key) {
+                        break;
+                    }
+                }
+            }
+            fields.push(props.input ? new InputProfile(props.fieldsdata[index]) : LabelProfile(values));
+        }
+
+        super('form', {
+            fields,
+            union,
+            ellipce,
+        });
+    }
+
+    render() {
+        return this.compile(LayoutProfileTemplate, this.props);
+    }
+}
