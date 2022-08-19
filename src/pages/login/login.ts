@@ -2,6 +2,7 @@ import PageLoginTemplate from './login.hbs';
 import FormTemplate, { Form } from '../../components/form/form';
 import Block from '../../utils/block';
 import ButtonTemplate, { Button } from '../../components/button/button';
+import helpers from '../../utils/helpers';
 
 import './login.scss';
 
@@ -28,6 +29,11 @@ export default PageLoginTemplate({
 
 export class PageLogin extends Block {
     constructor() {
+        const events = {
+            blur: helpers.onBlurInput,
+            focus: helpers.onFocusInput,
+            invalid: helpers.onInvalidInput,
+        };
         const props = {
             form: new Form({
                 legend: 'Вход',
@@ -42,22 +48,14 @@ export class PageLogin extends Block {
                         text: 'Логин',
                         type: 'text',
                         pattern: '[0-9A-Za-z_-]{3,20}',
-                        events: {
-                            blur: PageLogin.onBlurInput,
-                            focus: PageLogin.onFocusInput,
-                            invalid: PageLogin.onInvalidInput,
-                        },
+                        events,
                     },
                     {
                         id: 'password',
                         text: 'Пароль',
                         type: 'password',
                         pattern: '[0-9A-Za-z]{8,40}',
-                        events: {
-                            blur: PageLogin.onBlurInput,
-                            focus: PageLogin.onFocusInput,
-                            invalid: PageLogin.onInvalidInput,
-                        },
+                        events,
                     },
                 ],
                 events: {
@@ -67,28 +65,6 @@ export class PageLogin extends Block {
         };
 
         super('form', props);
-    }
-
-    static onInvalidInput(event: InputEvent) {
-        const target = event.target as HTMLInputElement;
-        if (target.value === '') {
-            target.setCustomValidity(`${target.name} is empty!`);
-        }
-        if (target.validity.patternMismatch) {
-            target.setCustomValidity(`${target.name} has pattern mismatch!`);
-        }
-    }
-
-    static onBlurInput(event: InputEvent) {
-        const target = event.target as HTMLInputElement;
-        target.setCustomValidity('');
-        target.checkValidity();
-    }
-
-    static onFocusInput(event: InputEvent) {
-        const target = event.target as HTMLInputElement;
-        target.setCustomValidity('');
-        target.reportValidity();
     }
 
     static onSubmit(event: MouseEvent) {

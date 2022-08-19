@@ -1,5 +1,5 @@
 import PageLoginTemplate, { PageLogin } from './pages/login/login';
-import PageSignin from './pages/signin/signin';
+import PageSigninTemplate, { PageSignin } from './pages/signin/signin';
 import PageError from './pages/error/error';
 import PageChatTemplate, { PageChat } from './pages/chat/chat';
 import PageNotFound from './pages/notfound/notfound';
@@ -9,7 +9,7 @@ import PagePassword from './pages/profile/password/passwordprofile';
 
 const routes : { [key: string]: string } = {
     '/login': PageLoginTemplate,
-    '/signin': PageSignin,
+    '/signin': PageSigninTemplate,
     '/error': PageError,
     '/chat': PageChatTemplate,
     '/profile': PageProfile,
@@ -30,6 +30,8 @@ if (root) {
         root.appendChild(new PageLogin().render() as Node);
         break;
     case '/signin':
+        root.appendChild(new PageSignin().render() as Node);
+        break;
     case '/error':
     case '/profile':
     case '/changeprofile':

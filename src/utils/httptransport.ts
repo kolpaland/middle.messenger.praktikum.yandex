@@ -1,20 +1,11 @@
+import helpers from './helpers';
+
 const METHODS = {
     GET: 'GET',
     POST: 'POST',
     PUT: 'PUT',
     DELETE: 'DELETE',
 };
-
-function queryStringify(data: object) {
-    if (typeof data !== 'object') {
-        throw new Error('Data must be object');
-    }
-
-    const keys = Object.keys(data);
-    return keys.reduce((result, key, index) => {
-        return `${result}${key}=${data[key as keyof Object]}${index < keys.length - 1 ? '&' : ''}`;
-    }, '?');
-}
 
 type Options = {
     method: string,
@@ -55,7 +46,7 @@ export default class HTTPTransport {
             xhr.open(
                 method,
                 isGet && !!data
-                    ? `${url}${queryStringify(data)}`
+                    ? `${url}${helpers.queryStringify(data)}`
                     : url,
             );
 
