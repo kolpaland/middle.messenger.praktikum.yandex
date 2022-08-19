@@ -35,15 +35,13 @@ export class PageLogin extends Block {
                 routText: 'Нет аккаунта?',
                 button: new Button({
                     text: 'Войти',
-                    events: {
-                        click: PageLogin.onSubmit,
-                    },
                 }),
                 fields: [
                     {
                         id: 'login',
                         text: 'Логин',
                         type: 'text',
+                        pattern: '[0-9A-Za-z_-]{3,20}',
                         events: {
                             blur: PageLogin.onBlurInput,
                             focus: PageLogin.onFocusInput,
@@ -54,6 +52,7 @@ export class PageLogin extends Block {
                         id: 'password',
                         text: 'Пароль',
                         type: 'password',
+                        pattern: '[0-9A-Za-z]{8,40}',
                         events: {
                             blur: PageLogin.onBlurInput,
                             focus: PageLogin.onFocusInput,
@@ -61,6 +60,9 @@ export class PageLogin extends Block {
                         },
                     },
                 ],
+                events: {
+                    submit: PageLogin.onSubmit,
+                },
             }),
         };
 
@@ -70,7 +72,10 @@ export class PageLogin extends Block {
     static onInvalidInput(event: InputEvent) {
         const target = event.target as HTMLInputElement;
         if (target.value === '') {
-            target.setCustomValidity('Enter messsage to send');
+            target.setCustomValidity(`${target.name} is empty!`);
+        }
+        if (target.validity.patternMismatch) {
+            target.setCustomValidity(`${target.name} has pattern mismatch!`);
         }
     }
 
@@ -88,6 +93,16 @@ export class PageLogin extends Block {
 
     static onSubmit(event: MouseEvent) {
         event.preventDefault();
+        event.stopPropagation();
+        const target: HTMLFormElement = event.target as HTMLFormElement;
+        const elements: HTMLFormControlsCollection = target.elements as HTMLFormControlsCollection;
+        const login = elements.namedItem('login') as HTMLInputElement;
+        const password = elements.namedItem('password')as HTMLInputElement;
+        if (login && password && login.validity.valid && password.validity.valid) {
+            console.log(`Логин: ${login.value}`);
+            console.log(`Пароль: ${password.value}`);
+            target.reset();
+        }
     }
 
     render(): DocumentFragment | null {

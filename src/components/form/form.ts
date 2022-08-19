@@ -18,7 +18,8 @@ type FormDataType = {
     rout: string,
     routText: string,
     button: Button,
-    fields: Array<FieldTemplateType>
+    fields: Array<FieldTemplateType>,
+    events?: Record<string, Function>
 };
 
 export default (data: FormTemplateDataType) => {
@@ -44,6 +45,7 @@ export class Form extends Block {
             rout,
             routText,
             button,
+            events,
         } = props;
         const fields = [];
 
@@ -56,6 +58,7 @@ export class Form extends Block {
             routText,
             button,
             fields,
+            events,
         };
 
         super('form', data);
