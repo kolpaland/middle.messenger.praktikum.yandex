@@ -82,7 +82,7 @@ export class LayoutProfile extends Block {
             fields.push(props.input ? new InputProfile(props.fieldsdata[index]) : LabelProfile(values));
         }
 
-        super('form', {
+        super('div', {
             fields,
             union,
             ellipce,

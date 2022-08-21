@@ -35,21 +35,20 @@ export default PageChangeProfileTemplate({
 export class PageChangeProfile extends Block {
     constructor() {
         const props = {
-            layoutProfile: new LayoutProfile({
-                ...data,
-                events: {
-                    submit: PageChangeProfile.onSubmit,
-                },
-            }),
+            layoutProfile: new LayoutProfile(data),
             button: new Button({ text: 'Сохранить' }),
+            events: {
+                submit: PageChangeProfile.onSubmit,
+            },
         };
 
-        super('div', props);
+        super('form', props);
     }
 
-    static onSubmit(event: MouseEvent): Boolean {
+    static onSubmit(event: SubmitEvent) {
         event.preventDefault();
         event.stopPropagation();
+        console.log('change profile submit');
         const target: HTMLFormElement = event.target as HTMLFormElement;
         const elements: HTMLFormControlsCollection = target.elements as HTMLFormControlsCollection;
         const values = [];

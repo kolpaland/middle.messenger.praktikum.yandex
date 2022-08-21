@@ -118,6 +118,7 @@ export default class Block {
     registerEvents(events: Record<string, Function>) {
         this._removeEvents();
         this.props.events = events;
+        this._addEvents();
     }
 
     _addEvents() {

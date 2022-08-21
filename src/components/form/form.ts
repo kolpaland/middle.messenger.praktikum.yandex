@@ -1,6 +1,7 @@
 import FormTemplate from './form.hbs';
 import ButtonTemplate, { Button } from '../../components/button/button';
-import FieldTemplate, { FieldTemplateType, Field } from './components/field/field';
+import FieldTemplate, { Field } from './components/field/field';
+import { FieldType } from '../constants';
 import Block from '../../utils/block';
 
 import './form.scss';
@@ -10,7 +11,7 @@ type FormTemplateDataType = {
     rout: string,
     routText: string,
     button: typeof ButtonTemplate,
-    fields: Array<FieldTemplateType>
+    fields: Array<FieldType>
 };
 
 type FormDataType = {
@@ -18,7 +19,7 @@ type FormDataType = {
     rout: string,
     routText: string,
     button: Button,
-    fields: Array<FieldTemplateType>,
+    fields: Array<FieldType>,
     events?: Record<string, Function>
 };
 
