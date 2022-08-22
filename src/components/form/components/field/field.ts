@@ -1,7 +1,8 @@
 import FieldTemplate from './field.hbs';
 import LabelTemplate from '../../../label/label';
 import InputTemplate, { Input } from '../../../input/input';
-import Block from '../../../../utils/block';
+//import Block from '../../../../utils/block';
+import Component from '../../../../utils/component';
 import { FieldType } from '../../../constants';
 
 import './field.scss';
@@ -22,7 +23,7 @@ export default (data: FieldType) => {
     });
 };
 
-export class Field extends Block {
+export class Field extends Component {
     constructor(props: FieldType) {
         const data = {
             label: LabelTemplate({
@@ -43,6 +44,6 @@ export class Field extends Block {
     }
 
     render() {
-        return this.compile(FieldTemplate, this.props);
+        return this.compile(FieldTemplate);
     }
 }

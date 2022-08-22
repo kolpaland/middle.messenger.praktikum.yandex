@@ -22,20 +22,18 @@ const path: string = window.location.pathname;
 
 if (root) {
     switch (path) {
-    case '/chat':
-        root.appendChild(new PageChat().render() as Node);
-        break;
     case '/':
     case '/login':
         root.appendChild(new PageLogin().render() as Node);
         break;
     case '/signin':
-        root.appendChild(new PageSignin().render() as Node);
-        break;
+        // root.appendChild(new PageSignin().render() as Node);
+        // break;
     case '/changeprofile':
-        root.appendChild(new PageChangeProfile().render() as Node);
-        break;
+        // root.appendChild(new PageChangeProfile().render() as Node);
+        // break;
     case '/error':
+    case '/chat':
     case '/profile':
     case '/password':
         root.innerHTML = routes[path];

@@ -2,7 +2,8 @@ import FormTemplate from './form.hbs';
 import ButtonTemplate, { Button } from '../../components/button/button';
 import FieldTemplate, { Field } from './components/field/field';
 import { FieldType } from '../constants';
-import Block from '../../utils/block';
+//import Block from '../../utils/block';
+import Component from '../../utils/component';
 
 import './form.scss';
 
@@ -39,7 +40,7 @@ export default (data: FormTemplateDataType) => {
     });
 };
 
-export class Form extends Block {
+export class Form extends Component {
     constructor(props: FormDataType) {
         const {
             legend,
@@ -62,10 +63,10 @@ export class Form extends Block {
             events,
         };
 
-        super('form', data);
+        super('div', data);
     }
 
     render() {
-        return this.compile(FormTemplate, this.props);
+        return this.compile(FormTemplate);
     }
 }

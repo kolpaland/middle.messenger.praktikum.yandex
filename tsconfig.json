@@ -5,7 +5,10 @@
         "noUnusedParameters": true,
         "sourceMap": true,
         "strictNullChecks": true,
-        "target": "es2017" 
+        "target": "es2017",
+        "paths": {
+            "handlebars": ["./node_modules/handlebars/dist/handlebars.min.js"]
+        } 
     },
     "exclude": [
         "./node_modules",
