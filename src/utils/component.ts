@@ -62,12 +62,12 @@ export default class Component {
     _render() {
         const block = this.render();
         this.removeEvents();
-        if (this._meta.simple) {
-            this._element = block?.firstChild as HTMLElement;
-        } else {
+        // if (this._meta.simple) {
+        //     this._element = block?.firstChild as HTMLElement;
+        // } else {
             this._element.innerHTML = '';
             this._element.appendChild(block as Node);
-        }
+        // }
 
         this.addEvents();
     }

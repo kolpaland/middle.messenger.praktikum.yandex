@@ -4,6 +4,7 @@ import Message, { MessageType } from './components/message/message';
 import * as ellipce from '../../../static/images/profile/Ellipse.png';
 import ButtonTemplate, { Button } from '../../components/button/button';
 import InputTemplate, { Input } from '../../components/input/input';
+import ChatFormTemplate, { ChatForm } from './components/chatform/form';
 import Block from '../../utils/block';
 
 import './chat.scss';
@@ -61,12 +62,14 @@ export default PageChatTemplate({
     list: getList(),
     messages: getMessages(),
     ellipce,
-    button: ButtonTemplate('Отправить'),
-    input: InputTemplate({
-        id: 'message',
-        name: 'message',
-        placeholder: 'Сообщение',
-        type: 'text',
+    form: ChatFormTemplate({
+        button: ButtonTemplate('Отправить'),
+        input: InputTemplate({
+            id: 'message',
+            name: 'message',
+            placeholder: 'Сообщение',
+            type: 'text',
+        }),
     }),
 });
 export class PageChat extends Block {
@@ -75,25 +78,27 @@ export class PageChat extends Block {
             list: getList(),
             messages: getMessages(),
             ellipce,
-            button: new Button({
-                text: 'Отправить',
+            form: new ChatForm({
+                button: new Button({
+                    text: 'Отправить',
+                }),
+                input: new Input({
+                    id: 'message',
+                    name: 'message',
+                    placeholder: 'Сообщение',
+                    type: 'text',
+                    events: {
+                        blur: PageChat.onBlurInput,
+                        focus: PageChat.onFocusInput,
+                        invalid: PageChat.onInvalidInput,
+                    },
+                }),
                 events: {
-                    click: PageChat.onSubmit,
-                },
-            }),
-            input: new Input({
-                id: 'message',
-                name: 'message',
-                placeholder: 'Сообщение',
-                type: 'text',
-                events: {
-                    blur: PageChat.onBlurInput,
-                    focus: PageChat.onFocusInput,
-                    invalid: PageChat.onInvalidInput,
+                    submit: PageChat.onSubmit,
                 },
             }),
         };
-        super('article', props);
+        super('div', props);
     }
 
     static onInvalidInput(event: InputEvent) {
@@ -116,18 +121,19 @@ export class PageChat extends Block {
     }
 
     static onSubmit(event: MouseEvent) {
-        const { target } = event;
-        const { parentElement } = target as HTMLInputElement;
-        const message = parentElement?.children?.namedItem('message') as HTMLInputElement;
-        if (message && message.reportValidity()) {
-            // согласно ТЗ выводим данные из форм в консоль
+        event.preventDefault();
+        event.stopPropagation();
+        const target: HTMLFormElement = event.target as HTMLFormElement;
+        const elements: HTMLFormControlsCollection = target.elements as HTMLFormControlsCollection;
+        const message = elements.namedItem('message') as HTMLInputElement;
+
+        if (message && message.validity.valid) {
             console.log(`Сообщение: ${message.value}`);
-            message.value = '';
-            event.preventDefault();
+            target.reset();
         }
     }
 
-    render(): DocumentFragment | null {
-        return this.compile(PageChatTemplate, this.props);
+    render(): Node | undefined {
+        return this.compile(PageChatTemplate);
     }
 }

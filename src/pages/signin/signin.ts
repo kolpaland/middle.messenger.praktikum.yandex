@@ -5,6 +5,7 @@ import ButtonTemplate, { Button } from '../../components/button/button';
 import fields from '../../components/constants';
 
 import './signin.scss';
+import { Field } from '../../components/form/components/field/field';
 
 const data = {
     legend: 'Регистрация',
@@ -20,9 +21,15 @@ export default PageSigninTemplate({
 
 export class PageSignin extends Block {
     constructor() {
+        const formfields = [];
+        for (let i = 0; i < fields.length; i++) {
+            formfields.push(new Field(fields[i]));
+        }
+
         const props = {
             form: new Form({
                 ...data,
+                fields: formfields,
                 button: new Button({
                     text: 'Зарегистрироваться',
                 }),
@@ -32,7 +39,7 @@ export class PageSignin extends Block {
             }),
         };
 
-        super('form', props);
+        super('div', props);
     }
 
     static onSubmit(event: MouseEvent): Boolean {
@@ -59,7 +66,7 @@ export class PageSignin extends Block {
         return false;
     }
 
-    render(): DocumentFragment | null {
-        return this.compile(PageSigninTemplate, this.props);
+    render(): Node | undefined {
+        return this.compile(PageSigninTemplate);
     }
 }

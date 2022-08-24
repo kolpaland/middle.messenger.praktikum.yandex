@@ -3,6 +3,7 @@ import ButtonTemplate, { Button } from '../../components/button/button';
 import FieldTemplate, { Field } from './components/field/field';
 import { FieldType } from '../constants';
 import Component from '../../utils/component';
+import Block from '../../utils/block';
 
 import './form.scss';
 
@@ -39,7 +40,7 @@ export default (data: FormTemplateDataType) => {
     });
 };
 
-export class Form extends Component {
+export class Form extends Block {
     constructor(props: FormDataType) {
         super('form', props);
     }

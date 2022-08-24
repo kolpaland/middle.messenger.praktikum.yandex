@@ -3,6 +3,7 @@ import LabelTemplate from '../../../label/label';
 import InputTemplate, { Input } from '../../../input/input';
 //import Block from '../../../../utils/block';
 import Component from '../../../../utils/component';
+import Block from '../../../../utils/block';
 import { FieldType } from '../../../constants';
 
 import './field.scss';
@@ -23,7 +24,7 @@ export default (data: FieldType) => {
     });
 };
 
-export class Field extends Component {
+export class Field extends Block {
     constructor(props: FieldType) {
         const data = {
             label: LabelTemplate({

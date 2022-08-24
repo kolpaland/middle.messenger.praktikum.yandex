@@ -1,7 +1,8 @@
 import PageLoginTemplate from './login.hbs';
 import FormTemplate, { Form } from '../../components/form/form';
-import Component from '../../utils/component';
+//import Component from '../../utils/component';
 import { Field } from '../../components/form/components/field/field';
+import Block from '../../utils/block';
 
 import ButtonTemplate, { Button } from '../../components/button/button';
 import helpers from '../../utils/helpers';
@@ -29,7 +30,7 @@ export default PageLoginTemplate({
     }),
 });
 
-export class PageLogin extends Component {
+export class PageLogin extends Block {
     constructor() {
         const events = {
             blur: helpers.onBlurInput,
