@@ -1,5 +1,4 @@
 import { v4 as makeUUID } from 'uuid';
-import Handlebars from 'handlebars';
 import EventBus from './eventbus';
 
 type Props = { [key: string]: unknown,
@@ -28,7 +27,7 @@ export default class Component {
 
     _eventBus;
 
-    constructor(tag = 'div', propsAndChilds = {}) {
+    constructor(tag = 'div', propsAndChilds = {}, simple = false) {
         const { children, props } = this.getChildren(propsAndChilds);
 
         this._eventBus = new EventBus();
@@ -36,7 +35,7 @@ export default class Component {
         // this._children = children;
         this._children = this.makePropsProxy(children);
         this._props = this.makePropsProxy({ ...props, __id: this._id });
-        this._meta = { tag, props };
+        this._meta = { tag, props, simple };
 
         this.registerEvents();
         this._eventBus.emit(Component.EVENT_INIT);
@@ -63,8 +62,13 @@ export default class Component {
     _render() {
         const block = this.render();
         this.removeEvents();
-        this._element.innerHTML = '';
-        this._element.appendChild(block as Node);
+        if (this._meta.simple) {
+            this._element = block?.firstChild as HTMLElement;
+        } else {
+            this._element.innerHTML = '';
+            this._element.appendChild(block as Node);
+        }
+
         this.addEvents();
     }
 
@@ -93,10 +97,13 @@ export default class Component {
         const props: Props = {};
 
         Object.keys(propsAndChilds).forEach((key) => {
-            if (propsAndChilds[key] instanceof Component) {
-                children[key as keyof Props] = propsAndChilds[key];
+            const child = propsAndChilds[key];
+            if (child instanceof Component) {
+                children[key as keyof Props] = child;
+            } else if (Array.isArray(child) && child[0] instanceof Component) {
+                children[key as keyof Props] = child;
             } else {
-                props[key as keyof Props] = propsAndChilds[key];
+                props[key as keyof Props] = child;
             }
         });
 
@@ -109,15 +116,32 @@ export default class Component {
         const propsAndStubs = { ...props };
 
         Object.entries(this._children).forEach(([key, child]) => {
-            propsAndStubs[key] = `<div data-id="${(child as Component)._id}"></div>`;
+            if (Array.isArray(child)) {
+                propsAndStubs[key as keyof Props] = [];
+                for (let i = 0; i < child.length; i++) {
+                    propsAndStubs[key as keyof Props].push(`<div data-id="${child[i]._id}"></div>`);
+                }
+            } else {
+                propsAndStubs[key] = `<div data-id="${(child as Component)._id}"></div>`;
+            }
         });
 
         const fragment: HTMLTemplateElement = this.createDocumentElement('template') as HTMLTemplateElement;
-        fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
+        fragment.innerHTML = template(propsAndStubs);// Handlebars.compile(template)(propsAndStubs);
 
         Object.values(this._children).forEach((child: Component) => {
-            const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
-            if (stub) { stub.replaceWith(child.getContent()); }
+            if (Array.isArray(child)) {
+                for (let i = 0; i < child.length; i++) {
+                    const stub = fragment.content.querySelector(`[data-id="${child[i]._id}"]`);
+                    if (stub != null) {
+                        stub.replaceWith(child[i].getContent());
+                    }
+                }
+            } else {
+                const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+
+                if (stub) stub.replaceWith(child.getContent());
+            }
         });
 
         return fragment.content;

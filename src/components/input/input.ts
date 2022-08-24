@@ -1,5 +1,4 @@
 import InputTemplate from './input.hbs';
-//import Block from '../../utils/block';
 import Component from '../../utils/component';
 import './input.scss';
 
@@ -17,7 +16,7 @@ export default (data: TypeInputData) => {
 };
 export class Input extends Component {
     constructor(props: TypeInputData) {
-        super('input', props);
+        super('input', props, true);
     }
 
     render() {

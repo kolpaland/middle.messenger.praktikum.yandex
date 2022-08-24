@@ -1,7 +1,8 @@
 import PageLoginTemplate from './login.hbs';
 import FormTemplate, { Form } from '../../components/form/form';
-// import Block from '../../utils/block';
 import Component from '../../utils/component';
+import { Field } from '../../components/form/components/field/field';
+
 import ButtonTemplate, { Button } from '../../components/button/button';
 import helpers from '../../utils/helpers';
 
@@ -43,7 +44,7 @@ export class PageLogin extends Component {
                 button: new Button({
                     text: 'Войти',
                 }),
-                fields: [
+                fields: [new Field(
                     {
                         id: 'login',
                         text: 'Логин',
@@ -51,13 +52,14 @@ export class PageLogin extends Component {
                         pattern: '[0-9A-Za-z_-]{3,20}',
                         events,
                     },
-                    {
-                        id: 'password',
-                        text: 'Пароль',
-                        type: 'password',
-                        pattern: '[0-9A-Za-z]{8,40}',
-                        events,
-                    },
+                ),
+                new Field({
+                    id: 'password',
+                    text: 'Пароль',
+                    type: 'password',
+                    pattern: '[0-9A-Za-z]{8,40}',
+                    events,
+                }),
                 ],
                 events: {
                     submit: PageLogin.onSubmit,
@@ -65,7 +67,7 @@ export class PageLogin extends Component {
             }),
         };
 
-        super('form', props);
+        super('div', props);
     }
 
     static onSubmit(event: MouseEvent) {
@@ -83,7 +85,6 @@ export class PageLogin extends Component {
     }
 
     render(): Node | undefined {
-       // console.log(PageLoginTemplate(this._props));
         return this.compile(PageLoginTemplate);
     }
 }
