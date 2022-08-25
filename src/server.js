@@ -6,11 +6,11 @@ const app = express();
 app.use(express.static(path.join(__dirname, './../dist')));
 
 app.use('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './../dist/index.html'));
+    res.sendFile(path.join(__dirname, './../dist/index.html'));
 });
 
 const port = 3000;
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });

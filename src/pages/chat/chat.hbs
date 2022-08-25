@@ -1,1 +1,28 @@
-{{{ stub }}}
+<article class="grid-init grid">
+    <div class="l-nav">
+        <p>
+            <a href="/profile">Профиль</a> 
+        </p>
+        <input placeholder="Поиск"></input>
+        {{#each list}}
+            {{{ this }}}
+        {{/each}}         
+    </div>
+    <div class="l-header">
+        <p>
+            <img class="img_chat" src={{ ellipce }}></img>
+            <p>Имя собеседника</p>
+            <button>+/-</button>        
+        </p>
+    </div>
+    <div class="l-main">
+        {{#each messages}}
+            {{{ this }}}
+        {{/each}}        
+    </div>
+    <div class="l-footer">
+        <button>Прикрепить</button>
+        {{{ form }}}
+        
+    </div>    
+</article>

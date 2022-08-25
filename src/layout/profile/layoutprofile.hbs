@@ -1,11 +1,8 @@
-<div>
-    <div class="box">
-        <img src={{ ellipce }} class="under" alt="" />
-        <img src={{ union }} class="over" alt="" />
-    </div>
-    <div class="form">
-        {{#each labels}}
-            {{{ this }}}
-        {{/each}}
-    </div>
+<div class="box">
+    <img src={{ ellipce }} class="under" alt="avatar" />
+    <img src={{ union }} class="over" alt="avatar" />
 </div>
+<div class="profileform">{{#each fields}}{{{ this }}}{{/each}}</div>
+{{#if button }}{{{ button }}}{{/if}}
+   
+
