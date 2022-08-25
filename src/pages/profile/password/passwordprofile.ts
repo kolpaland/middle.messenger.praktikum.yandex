@@ -16,7 +16,7 @@ const data = {
     oldPassword: '0000',
     newPassword: '0000',
     reenterPassword: '0000',
-    fieldsdata: [{
+    fields: [{
         id: 'oldPassword',
         text: LabelText.oldPassword,
         ...attr,

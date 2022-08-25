@@ -7,7 +7,13 @@ import Block from '../../../utils/block';
 import './changeprofile.scss';
 
 function getProfile() {
-    fieldsdata.push({
+    const fields = [];
+    // take first 5 fields, exclude password
+
+    for (let i = 0; i < 5; i++) {
+        fields.push(fieldsdata[i]);
+    }
+    fields.push({
         id: 'display_name',
         text: 'Имя',
         type: 'text',
@@ -23,7 +29,7 @@ function getProfile() {
         phone: '+7 (909) 967 30 30',
         display_name: 'Иван',
         button: ButtonTemplate('Сохранить'),
-        fieldsdata,
+        fields,
     };
 }
 
@@ -48,18 +54,15 @@ export class PageChangeProfile extends Block {
     }
 
     static onSubmit(event: SubmitEvent) {
-        const fields = getProfile().fieldsdata;
+        const { fields } = getProfile();
         event.preventDefault();
         event.stopPropagation();
-        console.log('change profile submit');
         const target: HTMLFormElement = event.target as HTMLFormElement;
         const elements: HTMLFormControlsCollection = target.elements as HTMLFormControlsCollection;
         const values = [];
         for (let i = 0; i < fields.length; i++) {
             const { id } = fields[i];
-            console.log(id);
             const elem = elements.namedItem(id) as HTMLInputElement;
-            console.log(elem);
             if (elem && elem.validity.valid) {
                 values.push({ label: fields[i].text, value: elem.value });
             } else {

@@ -20,7 +20,7 @@ type Profile = {
     oldPassword?:string,
     newPassword?: string,
     reenterPassword?: string,
-    fieldsdata: FieldType[],
+    fields: FieldType[],
     button: typeof ButtonTemplate,
     events?: Record<string, Function>
 };
@@ -36,7 +36,7 @@ type ProfileData = {
     oldPassword?:string,
     newPassword?: string,
     reenterPassword?: string,
-    fieldsdata: FieldType[],
+    fields: FieldType[],
     button: Button,
     events?: Record<string, Function>
 };
@@ -45,7 +45,7 @@ export default (data: Profile) => {
     const fields = [];
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key in data) {
-        if (key === 'fieldsdata' || key === 'input' || key === 'events' || key === 'button') {
+        if (key === 'fields' || key === 'input' || key === 'events' || key === 'button') {
             // eslint-disable-next-line no-continue
             continue;
         }
@@ -57,13 +57,13 @@ export default (data: Profile) => {
         };
         let index = 0;
         if (data.input) {
-            for (; index < data.fieldsdata.length; index++) {
-                if (data.fieldsdata[index].id === key) {
+            for (; index < data.fields.length; index++) {
+                if (data.fields[index].id === key) {
                     break;
                 }
             }
         }
-        fields.push(data.input ? InputProfileTemplate(data.fieldsdata[index]) : LabelProfile(values));
+        fields.push(data.input ? InputProfileTemplate(data.fields[index]) : LabelProfile(values));
     }
 
     return LayoutProfileTemplate({
@@ -78,7 +78,7 @@ export class LayoutProfile extends Block {
         const fields: typeof LabelProfile[] | InputProfile[] = [];
         // eslint-disable-next-line no-restricted-syntax, guard-for-in
         for (const key in props) {
-            if (key === 'fieldsdata' || key === 'input' || key === 'events' || key === 'button') {
+            if (key === 'fields' || key === 'input' || key === 'events' || key === 'button') {
                 // eslint-disable-next-line no-continue
                 continue;
             }
@@ -90,13 +90,13 @@ export class LayoutProfile extends Block {
             };
             let index = 0;
             if (props.input) {
-                for (; index < props.fieldsdata.length; index++) {
-                    if (props.fieldsdata[index].id === key) {
+                for (; index < props.fields.length; index++) {
+                    if (props.fields[index].id === key) {
                         break;
                     }
                 }
             }
-            fields.push(props.input ? new InputProfile(props.fieldsdata[index]) : LabelProfile(values));
+            fields.push(props.input ? new InputProfile(props.fields[index]) : LabelProfile(values));
         }
 
         super('form', {
