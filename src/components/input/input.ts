@@ -1,5 +1,4 @@
 import InputTemplate from './input.hbs';
-import Component from '../../utils/component';
 import './input.scss';
 import Block from '../../utils/block';
 

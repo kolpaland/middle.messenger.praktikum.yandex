@@ -22,6 +22,7 @@ function getProfile() {
         second_name: 'Иванов',
         phone: '+7 (909) 967 30 30',
         display_name: 'Иван',
+        button: ButtonTemplate('Сохранить'),
         fieldsdata,
     };
 }
@@ -30,33 +31,37 @@ const data = getProfile();
 
 export default PageChangeProfileTemplate({
     layoutProfile: LayoutProfileTemplate(data),
-    button: ButtonTemplate('Сохранить'),
 });
 export class PageChangeProfile extends Block {
     constructor() {
         const props = {
-            layoutProfile: new LayoutProfile(data),
-            button: new Button({ text: 'Сохранить' }),
-            events: {
-                submit: PageChangeProfile.onSubmit,
-            },
+            layoutProfile: new LayoutProfile({
+                ...data,
+                button: new Button({ text: 'Сохранить' }),
+                events: {
+                    submit: PageChangeProfile.onSubmit,
+                },
+            }),
         };
 
-        super('form', props);
+        super('div', props);
     }
 
     static onSubmit(event: SubmitEvent) {
+        const fields = getProfile().fieldsdata;
         event.preventDefault();
         event.stopPropagation();
         console.log('change profile submit');
         const target: HTMLFormElement = event.target as HTMLFormElement;
         const elements: HTMLFormControlsCollection = target.elements as HTMLFormControlsCollection;
         const values = [];
-        for (let i = 0; i < data.fieldsdata.length; i++) {
-            const { id } = data.fieldsdata[i];
+        for (let i = 0; i < fields.length; i++) {
+            const { id } = fields[i];
+            console.log(id);
             const elem = elements.namedItem(id) as HTMLInputElement;
+            console.log(elem);
             if (elem && elem.validity.valid) {
-                values.push({ label: data.fieldsdata[i].text, value: elem.value });
+                values.push({ label: fields[i].text, value: elem.value });
             } else {
                 return false;
             }
@@ -70,7 +75,7 @@ export class PageChangeProfile extends Block {
         return false;
     }
 
-    render(): DocumentFragment | null {
-        return this.compile(PageChangeProfileTemplate, this.props);
+    render(): Node | undefined {
+        return this.compile(PageChangeProfileTemplate);
     }
 }

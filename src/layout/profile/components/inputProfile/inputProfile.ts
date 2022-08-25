@@ -38,6 +38,6 @@ export class InputProfile extends Block {
     }
 
     render() {
-        return this.compile(InputProfileTemplate, this.props);
+        return this.compile(InputProfileTemplate);
     }
 }

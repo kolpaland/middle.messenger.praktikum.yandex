@@ -7,6 +7,7 @@ import { FieldType, LabelText } from '../../components/constants';
 import Block from '../../utils/block';
 
 import './layoutprofile.scss';
+import ButtonTemplate, { Button } from '../../components/button/button';
 
 type Profile = {
     input: Boolean,
@@ -20,6 +21,23 @@ type Profile = {
     newPassword?: string,
     reenterPassword?: string,
     fieldsdata: FieldType[],
+    button: typeof ButtonTemplate,
+    events?: Record<string, Function>
+};
+
+type ProfileData = {
+    input: Boolean,
+    email?: string,
+    login?: string,
+    first_name?: string,
+    second_name?: string,
+    phone?: string,
+    display_name?: string;
+    oldPassword?:string,
+    newPassword?: string,
+    reenterPassword?: string,
+    fieldsdata: FieldType[],
+    button: Button,
     events?: Record<string, Function>
 };
 
@@ -27,7 +45,7 @@ export default (data: Profile) => {
     const fields = [];
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key in data) {
-        if (key === 'fieldsdata' || key === 'input' || key === 'events') {
+        if (key === 'fieldsdata' || key === 'input' || key === 'events' || key === 'button') {
             // eslint-disable-next-line no-continue
             continue;
         }
@@ -45,7 +63,6 @@ export default (data: Profile) => {
                 }
             }
         }
-
         fields.push(data.input ? InputProfileTemplate(data.fieldsdata[index]) : LabelProfile(values));
     }
 
@@ -57,11 +74,11 @@ export default (data: Profile) => {
 };
 
 export class LayoutProfile extends Block {
-    constructor(props: Profile) {
+    constructor(props: ProfileData) {
         const fields: typeof LabelProfile[] | InputProfile[] = [];
         // eslint-disable-next-line no-restricted-syntax, guard-for-in
         for (const key in props) {
-            if (key === 'fieldsdata' || key === 'input' || key === 'events') {
+            if (key === 'fieldsdata' || key === 'input' || key === 'events' || key === 'button') {
                 // eslint-disable-next-line no-continue
                 continue;
             }
@@ -82,14 +99,16 @@ export class LayoutProfile extends Block {
             fields.push(props.input ? new InputProfile(props.fieldsdata[index]) : LabelProfile(values));
         }
 
-        super('div', {
+        super('form', {
             fields,
             union,
             ellipce,
+            button: props.button,
+            events: props.events,
         });
     }
 
     render() {
-        return this.compile(LayoutProfileTemplate, this.props);
+        return this.compile(LayoutProfileTemplate);
     }
 }
