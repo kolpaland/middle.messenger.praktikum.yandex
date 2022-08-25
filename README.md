@@ -3,11 +3,7 @@
 
 Ссылка на [Pull Request Sprint 2](https://github.com/kolpaland/middle.messenger.praktikum.yandex/pull/10). 
 
-Проектная работа выполнена согласно перечня заданий из [ТЗ Яндекс Практикума для 2-го спринта](https://practicum.yandex.ru/learn/middle-frontend/courses/631c1205-d8df-4662-821e-bb83fcbf51da/sprints/35756/topics/0c2e40db-e6ab-4834-9ece-c8392ccca510/lessons/badfe7fe-b562-4628-a2e6-c9ecbfca14f3/), за исключением пунктов: **4**, **5**, **6** и **9**. 
-
-Наработки по этим пунктам сделаны только на странице чата: _`/chat`_. Страница _**PageChat**_ и элемент _**Input**_ наследуются от класса _**Block**_. Добавлена валидация не пустого поля _message_ по событиям `'focus'` и `'blur'` (пока просто пишется сообщение в консоль).
-
->ВАЖНО! Нужна обратная связь, понимание, так ли делать дальше, с остальными страницами.
+Проектная работа выполнена согласно перечня заданий из [ТЗ Яндекс Практикума для 2-го спринта](https://practicum.yandex.ru/learn/middle-frontend/courses/631c1205-d8df-4662-821e-bb83fcbf51da/sprints/35756/topics/0c2e40db-e6ab-4834-9ece-c8392ccca510/lessons/badfe7fe-b562-4628-a2e6-c9ecbfca14f3/). 
 
 Страница чата сверстана пока только условно. За образец взяты [макеты Яндекс Практикума](https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1). Соответствие пока минимальное, ставка на реализацию заданий, связанных с TypeScript и MVC. 
 
