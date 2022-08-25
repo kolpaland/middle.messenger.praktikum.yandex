@@ -19,7 +19,11 @@ export default PageSigninTemplate({
     form: FormTemplate(data),
 });
 
-export class PageSignin extends Block {
+type SigninProps = {
+    form: Form,
+    events? : Record<string, Function>
+}
+export class PageSignin extends Block<SigninProps> {
     constructor() {
         const formfields = [];
         for (let i = 0; i < fields.length; i++) {

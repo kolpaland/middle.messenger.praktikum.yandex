@@ -2,7 +2,6 @@ import FormTemplate from './form.hbs';
 import ButtonTemplate, { Button } from '../../components/button/button';
 import FieldTemplate, { Field } from './components/field/field';
 import { FieldType } from '../constants';
-import Component from '../../utils/component';
 import Block from '../../utils/block';
 
 import './form.scss';
@@ -15,7 +14,7 @@ type FormTemplateDataType = {
     fields: Array<FieldType>
 };
 
-type FormDataType = {
+type FormProps = {
     legend: string,
     rout: string,
     routText: string,
@@ -40,8 +39,8 @@ export default (data: FormTemplateDataType) => {
     });
 };
 
-export class Form extends Block {
-    constructor(props: FormDataType) {
+export class Form extends Block<FormProps> {
+    constructor(props: FormProps) {
         super('form', props);
     }
 

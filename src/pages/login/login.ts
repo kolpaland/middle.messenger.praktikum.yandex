@@ -29,7 +29,11 @@ export default PageLoginTemplate({
     }),
 });
 
-export class PageLogin extends Block {
+type PageLoginProps = {
+    form: Form,
+    events? : Record<string, Function>
+}
+export class PageLogin extends Block<PageLoginProps> {
     constructor() {
         const events = {
             blur: helpers.onBlurInput,

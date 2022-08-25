@@ -73,7 +73,14 @@ export default (data: Profile) => {
     });
 };
 
-export class LayoutProfile extends Block {
+type LayoutProfileProps = {
+    fields: Array<InputProfile> | Array<typeof LabelProfile>,
+    union: ImageBitmap,
+    ellipce: ImageBitmap,
+    button: Button,
+    events?: Record<string, Function>
+}
+export class LayoutProfile extends Block<LayoutProfileProps> {
     constructor(props: ProfileData) {
         const fields: typeof LabelProfile[] | InputProfile[] = [];
         // eslint-disable-next-line no-restricted-syntax, guard-for-in

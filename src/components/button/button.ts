@@ -1,5 +1,4 @@
 import ButtonTemplate from './button.hbs';
-import Component from '../../utils/component';
 import Block from '../../utils/block';
 
 import './button.scss';
@@ -8,8 +7,12 @@ export default (text: string) => {
     return ButtonTemplate({ text });
 };
 
-export class Button extends Block {
-    constructor(props: { text: string, events?: Record<string, Function> }) {
+type ButtonProps = {
+    text: string,
+    events?: Record<string, Function>
+}
+export class Button extends Block<ButtonProps> {
+    constructor(props: ButtonProps) {
         super('div', props);
     }
 

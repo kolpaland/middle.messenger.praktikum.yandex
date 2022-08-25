@@ -24,7 +24,12 @@ export default (data: FieldType) => {
     });
 };
 
-export class Field extends Block {
+type FieldProps = {
+    label: typeof LabelTemplate,
+    input: Input,
+    events?: Record<string, Function>
+}
+export class Field extends Block<FieldProps> {
     constructor(props: FieldType) {
         const data = {
             label: LabelTemplate({

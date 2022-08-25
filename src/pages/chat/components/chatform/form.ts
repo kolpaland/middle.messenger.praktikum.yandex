@@ -21,7 +21,7 @@ export default (data: ChatFormTemplateDataType) => {
     return ChatFormTemplate(data);
 };
 
-export class ChatForm extends Block {
+export class ChatForm extends Block<ChatFormDataType> {
     constructor(props: ChatFormDataType) {
         super('form', props);
     }

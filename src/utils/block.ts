@@ -2,10 +2,7 @@ import { v4 as makeUUID } from 'uuid';
 
 import EventBus from './eventbus';
 
-type Props = { [key: string]: unknown,
-    events?: Record<string, Function>
-};
-export default class Block {
+export default class Block<Props extends { events? : Record<string, Function> } > {
     static EVENT_INIT 		= 'init';
 
     static EVENT_FLOW_CDM 	= 'flow:component-did-mount';
@@ -14,25 +11,25 @@ export default class Block {
 
     static EVENT_FLOW_RENDER = 'flow:render';
 
-    _props;
+    private _props;
 
-    _children;
+    private _children;
 
-    _id;
+    private _id;
 
-    _element: HTMLElement;
+    private _element: HTMLElement;
 
-    _meta;
+    private _meta;
 
-    _eventBus;
+    private _eventBus;
 
-    constructor(tag = 'div', propsAndChilds = {}, simple = false) {
+    constructor(tag = 'div', propsAndChilds = {} as Props, simple = false) {
         const { children, props } = this.getChildren(propsAndChilds);
 
         this._eventBus = new EventBus();
         this._id = makeUUID();
         this._children = this.makePropsProxy(children);
-        this._props = this.makePropsProxy({ ...props, __id: this._id });
+        this._props = this.makePropsProxy({ ...props, __id: this._id }) as Props;
         this._meta = { tag, props, simple };
 
         this.registerEvents();
@@ -53,11 +50,10 @@ export default class Block {
 
     createDocumentElement(tag: string) {
         const element = document.createElement(tag);
-        element.setAttribute('data-id', this._id);
         return element;
     }
 
-    _render() {
+    private _render() {
         const block = this.render();
         this.removeEvents();
         if (this._meta.simple) {
@@ -91,11 +87,11 @@ export default class Block {
     }
 
     getChildren(propsAndChilds: Props) {
-        const children: Props = {};
-        const props: Props = {};
+        const children: Props = {} as Props;
+        const props: Props = {} as Props;
 
         Object.keys(propsAndChilds).forEach((key) => {
-            const child = propsAndChilds[key];
+            const child = propsAndChilds[key as keyof Props];
             if (child instanceof Block) {
                 children[key as keyof Props] = child;
             } else if (Array.isArray(child) && child[0] instanceof Block) {
@@ -115,19 +111,20 @@ export default class Block {
 
         Object.entries(this._children).forEach(([key, child]) => {
             if (Array.isArray(child)) {
-                propsAndStubs[key as keyof Props] = [];
+                const arr: string[] = [];
                 for (let i = 0; i < child.length; i++) {
-                    propsAndStubs[key as keyof Props].push(`<div data-id="${child[i]._id}"></div>`);
+                    arr.push(`<div data-id="${child[i]._id}"></div>`);
                 }
+                propsAndStubs[key as keyof Props] = arr;
             } else {
-                propsAndStubs[key] = `<div data-id="${(child as Block)._id}"></div>`;
+                propsAndStubs[key as keyof Props] = `<div data-id="${child._id}"></div>`;
             }
         });
 
         const fragment: HTMLTemplateElement = this.createDocumentElement('template') as HTMLTemplateElement;
         fragment.innerHTML = template(propsAndStubs);// Handlebars.compile(template)(propsAndStubs);
 
-        Object.values(this._children).forEach((child: Block) => {
+        Object.values(this._children).forEach((child) => {
             if (Array.isArray(child)) {
                 for (let i = 0; i < child.length; i++) {
                     const stub = fragment.content.querySelector(`[data-id="${child[i]._id}"]`);
@@ -145,9 +142,9 @@ export default class Block {
         return fragment.content;
     }
 
-    _componentDidMount() {
+    private _componentDidMount() {
         this.componentDidMount();
-        Object.values(this._children).forEach((child: Block) => { child.dispatchComponentDidMount(); });
+        Object.values(this._children).forEach((child) => { child.dispatchComponentDidMount(); });
     }
 
     componentDidMount() {}
@@ -157,7 +154,7 @@ export default class Block {
         if (Object.keys(this._children).length) { this._eventBus.emit(Block.EVENT_FLOW_RENDER); }
     }
 
-    _componentDidUpdate(oldProps: Props, newProps: Props) {
+    private _componentDidUpdate(oldProps: Props, newProps: Props) {
         const isReRender = this.componentDidUpdate(oldProps, newProps);
         if (isReRender) { this._eventBus.emit(Block.EVENT_FLOW_RENDER); }
     }

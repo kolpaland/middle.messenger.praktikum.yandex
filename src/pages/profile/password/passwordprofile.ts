@@ -40,7 +40,11 @@ export default PagePasswordTemplate({
     layoutProfile: LayoutProfileTemplate(getPasswordFields()),
 });
 
-export class PagePasswordProfile extends Block {
+type PagePasswordProps = {
+    layoutProfile: LayoutProfile,
+    events? : Record<string, Function>
+}
+export class PagePasswordProfile extends Block<PagePasswordProps> {
     constructor() {
         const props = {
             layoutProfile: new LayoutProfile({

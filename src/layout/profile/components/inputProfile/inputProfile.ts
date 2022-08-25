@@ -20,7 +20,12 @@ export default (data: FieldType) => {
     });
 };
 
-export class InputProfile extends Block {
+type InputProfileType = {
+    labelText: string,
+    input: Input,
+    events?: Record<string, Function>
+}
+export class InputProfile extends Block<InputProfileType> {
     constructor(props: FieldType) {
         const data = {
             labelText: props.text,

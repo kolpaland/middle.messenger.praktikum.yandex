@@ -14,7 +14,7 @@ export type TypeInputData = {
 export default (data: TypeInputData) => {
     return InputTemplate(data);
 };
-export class Input extends Block {
+export class Input extends Block<TypeInputData> {
     constructor(props: TypeInputData) {
         super('div', props, true);
     }

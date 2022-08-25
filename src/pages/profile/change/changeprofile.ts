@@ -38,7 +38,12 @@ const data = getProfile();
 export default PageChangeProfileTemplate({
     layoutProfile: LayoutProfileTemplate(data),
 });
-export class PageChangeProfile extends Block {
+
+type ChangeProfileProps = {
+    layoutProfile: LayoutProfile,
+    events? : Record<string, Function>
+}
+export class PageChangeProfile extends Block<ChangeProfileProps> {
     constructor() {
         const props = {
             layoutProfile: new LayoutProfile({

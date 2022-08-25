@@ -72,7 +72,15 @@ export default PageChatTemplate({
         }),
     }),
 });
-export class PageChat extends Block {
+
+type ChatProps = {
+    list: Array<typeof ListItem>,
+    messages: Array<typeof Message>,
+    ellipce: ImageBitmap,
+    form: ChatForm,
+    events? : Record<string, Function>
+}
+export class PageChat extends Block<ChatProps> {
     constructor() {
         const props = {
             list: getList(),
