@@ -5,7 +5,7 @@ import PageChatTemplate, { PageChat } from './pages/chat/chat';
 import PageNotFound from './pages/notfound/notfound';
 import PageProfile from './pages/profile/info/infoprofile';
 import PageChangeProfileTemplate, { PageChangeProfile } from './pages/profile/change/changeprofile';
-import PagePassword from './pages/profile/password/passwordprofile';
+import PagePasswordTemplate, { PagePasswordProfile } from './pages/profile/password/passwordprofile';
 
 const routes : { [key: string]: string } = {
     '/login': PageLoginTemplate,
@@ -14,7 +14,7 @@ const routes : { [key: string]: string } = {
     '/chat': PageChatTemplate,
     '/profile': PageProfile,
     '/changeprofile': PageChangeProfileTemplate,
-    '/password': PagePassword,
+    '/password': PagePasswordTemplate,
     '/': PageLoginTemplate,
 };
 const root: Element | null = document.querySelector('#root');
@@ -35,9 +35,11 @@ if (root) {
     case '/chat':
         root.appendChild(new PageChat().render() as Node);
         break;
+    case '/password':
+        root.appendChild(new PagePasswordProfile().render() as Node);
+        break;
     case '/error':
     case '/profile':
-    case '/password':
         root.innerHTML = routes[path];
         break;
     default:
